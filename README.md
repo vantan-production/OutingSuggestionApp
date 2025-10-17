@@ -1,6 +1,6 @@
 # OutingSuggestionApp
 
-LaravelとDockerを使用したAPIアプリケーション
+LaravelとDockerを使用したおでかけ提案webアプリ
 
 ## 初回セットアップ手順
 
