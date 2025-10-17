@@ -19,4 +19,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 
 # laravelの開発サーバーを起動
-CMD php artisan serve --host=0.0.0.0 --port=8000
+# CMD php artisan serve --host=0.0.0.0 --port=8000
+
+# コンテナを起動し続ける（Laravelインストール後に手動でサーバー起動）
+CMD ["sleep", "infinity"]
