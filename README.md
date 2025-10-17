@@ -22,7 +22,7 @@ docker-compose up -d
 docker-compose ps
 ```
 
-全てのコンテナが `Up` になっていることを確認：
+全てのコンテナが `Up` になっていることを確認
 
 ### 4. 依存関係をインストール
 ```bash
@@ -129,7 +129,7 @@ docker-compose exec db mysql -u laravel -plaravel laravel
 
 ## 開発ガイドライン
 
-開発時のブランチ戦略、コミットメッセージ規則などは、[CONTRIBUTING.md](./CONTRIBUTING.md) を参照してください。
+ブランチ命名規則、コミットメッセージ規則などは、[CONTRIBUTING.md](./CONTRIBUTING.md) を参照してください。
 
 ---
 
