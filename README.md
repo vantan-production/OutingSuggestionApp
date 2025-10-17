@@ -17,11 +17,11 @@
 
 ### 具体例
 ```
-feature/tanaka/login-page
-fix/suzuki/header-layout
-update/sato/button-style
-feature/yamada/user-profile-api
-fix/tanaka/form-validation
+feature/taro/login-page
+fix/hanako/header-layout
+update/taro/button-style
+feature/hanako/user-profile-api
+fix/taro/form-validation
 ```
 
 ### ポイント
