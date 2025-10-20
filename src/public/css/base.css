@@ -1,0 +1,33 @@
+:root {
+    /* 色 */
+    --color-orange: #E4925C;
+    --color-blue: #25559D;
+    --color-white: #f7f7f7;
+    --color-black: #505050;
+    --color-beige: #EEE0CC;
+
+    /* padding */
+    --p1: 4px;
+    --p2: 800px;
+    --p3: 10px;
+    --p4: 12px;
+    --p5: 15px;
+    --p6: 16px;
+
+    /* margin */
+    --m1: 20px;
+    --m2: 24px;
+    --m3: 28px;
+
+    /* font */
+    --font-h1: 26px "Kiwi Maru", serif;
+    --font-h2: 100 24px "Kiwi Maru", serif;
+    --font-h2-bold: 900 24px "Kiwi Maru", serif;
+    --font-h3: 22px "Kiwi Maru", serif;
+    --font-h4: 20px "Kiwi Maru", serif;
+    --font-p: 16px "Kiwi Maru", serif;
+    --font-small: 12px "Kiwi Maru", serif;
+}
+
+/* viewsディレクトリでbase.cssを読み込む相対パスは
+---  href="css/base.css" ---で読み込む */
