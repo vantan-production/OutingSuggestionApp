@@ -6,6 +6,9 @@
     --color-black: #505050;
     --color-beige: #EEE0CC;
 
+    /* 画面幅 */
+    --max: 393px
+
     /* padding */
     --p1: 4px;
     --p2: 800px;
