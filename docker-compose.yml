@@ -1,0 +1,13 @@
+services:
+  front:
+    build: ./frontend
+    volumes:
+      - ./frontend:/workdir
+    ports:
+      - 3007:3000
+  back:
+    build: ./backend
+    volumes:
+      - ./backend:/workdir
+    ports:
+      - 8007:8000

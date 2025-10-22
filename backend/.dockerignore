@@ -1,0 +1,8 @@
+node_modules/
+.git/
+*.log
+vendor/
+storage/
+bootstrap/cache/
+.env
+tests/
