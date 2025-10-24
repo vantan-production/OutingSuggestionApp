@@ -8,6 +8,7 @@
 /src/.env.backup
 /src/.phpunit.result.cache
 
+
 # IDE設定
 /.idea
 /.vscode
@@ -18,3 +19,10 @@ Thumbs.db
 
 # Docker関連
 /src/bootstrap/cache/*
+
+backend/mysql_data
+**/mysql_data
+*.sdi
+ibdata1
+ibtmp1
+mysql.ibd

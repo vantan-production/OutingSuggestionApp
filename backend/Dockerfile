@@ -7,6 +7,7 @@ ENV PATH="$PATH:/opt/composer/vendor/bin"
 RUN apt-get update
 RUN apt-get install -y zip
 
+RUN docker-php-ext-install pdo pdo_mysql
 COPY . .
 WORKDIR /workdir/src
 RUN composer install
