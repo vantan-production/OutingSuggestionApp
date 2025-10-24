@@ -10,21 +10,37 @@ git clone https://github.com/your-org/Lala-Next.git
 cd Lala-Next
 ```
 
-### 2. Dockerコンテナを起動
+### 2. 依存関係をインストール
+
+#### フロントエンド（Next.js）の依存関係
+```bash
+cd frontend/src
+npm install
+cd ../..
+```
+
+#### バックエンド（Laravel）の依存関係
+```bash
+cd backend/src
+composer install
+cd ../..
+```
+
+### 3. Dockerコンテナを起動
 ```bash
 docker compose up -d
 ```
 
 初回は5〜15分程度かかります。
 
-### 3. コンテナの起動確認
+### 4. コンテナの起動確認
 ```bash
 docker compose ps
 ```
 
 全てのコンテナが `Up` になっていることを確認
 
-### 4. ブラウザでアクセス
+### 5. ブラウザでアクセス
 
 - **Next.js (Frontend)**: http://localhost:3007
 - **Laravel (Backend)**: http://localhost:8007
@@ -88,6 +104,21 @@ chore: その他の変更
 ---
 
 ## トラブルシューティング
+
+### 依存関係の問題が発生した場合
+```bash
+# フロントエンドの依存関係を再インストール
+cd frontend/src
+rm -rf node_modules package-lock.json
+npm install
+cd ../..
+
+# バックエンドの依存関係を再インストール
+cd backend/src
+rm -rf vendor composer.lock
+composer install
+cd ../..
+```
 
 ### コンテナが起動しない場合
 ```bash
