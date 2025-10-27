@@ -1,11 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WeatherController;
 
 // テスト用のシンプルなAPI
 Route::get('/test', function () {
     return response()->json(['message' => 'API is working!']);
 });
 
-// 外部API経由のデータ取得（後で実装）
-// Route::get('/external-data', [ExternalApiController::class, 'fetchData']);
+// 天気API
+Route::get('/weather', [WeatherController::class, 'getWeather']);
