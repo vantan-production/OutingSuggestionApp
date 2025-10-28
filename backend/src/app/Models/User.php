@@ -20,7 +20,10 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
+        'current_lat',
+        'current_lon',
     ];
 
     /**
@@ -29,7 +32,10 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $hidden = [
+        'phone',
         'password',
+        'current_lat',
+        'current_lon',
         'remember_token',
     ];
 
