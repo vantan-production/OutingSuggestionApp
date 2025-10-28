@@ -13,17 +13,20 @@ cd Lala-Next
 ### 2. 依存関係をインストール
 
 #### フロントエンド（Next.js）の依存関係
+
 ```bash
-cd frontend/src
+docker compose  run back bash
+php artisan migrate
+No
 npm install
-cd ../..
+exit
 ```
 
 #### バックエンド（Laravel）の依存関係
 ```bash
-cd backend/src
+docker compose run front bash install
 composer install
-cd ../..
+exit
 ```
 
 ### 3. Dockerコンテナを起動
