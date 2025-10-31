@@ -1,6 +1,6 @@
 export function StoreInfo () {
     return (
-        <div className=" w-44 h-44 rounded-lg ">
+        <div className=" w-44 h-44 rounded-lg overflow-hidden ">
             <img className=" w-44 h-24 " src="/images/shop_01.jpeg" alt="store-photo" />
             <div className=" bg-orange  w-44 h-20 p-1 ">
                 <ul>
