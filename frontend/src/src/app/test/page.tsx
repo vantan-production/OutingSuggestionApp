@@ -1,8 +1,8 @@
-import StoreInfo from "../../../components/store-info";
+import EventCategory from "../../../components/event-category";
 export default function TestPage() {
   return (
     <div>
-      <StoreInfo />
+      <EventCategory />
     </div>
   );
 }
