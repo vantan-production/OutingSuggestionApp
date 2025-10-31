@@ -11,8 +11,7 @@ class PlacesController extends Controller
     /**
      * 座標周辺の店舗を検索
      */
-    public function searchNearby(Request $request)
-    {
+    public function searchNearby(Request $request) {
         // 座標を取得
         $lat = $request->query('lat');
         $lon = $request->query('lon');
