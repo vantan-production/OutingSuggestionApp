@@ -1,8 +1,9 @@
-import StoreDelete from "../../../components/store-delete";
+
+import EventInfo from "../../../components/event-info";
 export default function TestPage() {
   return (
     <div>
-      <StoreDelete />
+      <EventInfo />
     </div>
   );
 }
