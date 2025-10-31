@@ -1,8 +1,8 @@
-import StoreInfo from "../../../components/store-info";
+import StoreDelete from "../../../components/store-delete";
 export default function TestPage() {
   return (
     <div>
-      <StoreInfo />
+      <StoreDelete />
     </div>
   );
 }
