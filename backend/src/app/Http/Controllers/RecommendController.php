@@ -55,7 +55,7 @@ class RecommendController extends Controller
                         'latitude' => (float)$lat,
                         'longitude' => (float)$lon
                     ],
-                    'radius' => 1000.0
+                    'radius' => 3000.0
                 ]
             ],
             'includedTypes' => [$genre],
@@ -107,19 +107,19 @@ class RecommendController extends Controller
     private function getGenreByWeather($weather) {
         switch ($weather) {
             case 'Clear':
-            case 'Snow':
-                $genre = 'restaurant';
+                $genre = 'park';
                 break;
             case 'Rain':
             case 'Drizzle':         // 霧雨
             case 'Thunderstorm':    // 雷雨
-                $genre = 'movie_theater';
-                break;
-            case 'Clouds':
                 $genre = 'shopping_mall';
                 break;
-            default:
+            case 'Clouds':
+            case 'Snow':
                 $genre = 'cafe';
+                break;
+            default:
+                $genre = 'restaurant';
                 break;
         }
         return $genre;

@@ -11,11 +11,10 @@ Route::get('/test', function () {
 });
 
 // 天気情報取得
-Route::get('/weather', [WeatherController::class, 'getWeather']);
+// Route::get('/weather', [WeatherController::class, 'getWeather']);
 
 // 店舗情報取得
-// 一覧
-Route::get('/places/nearby', [PlacesController::class, 'searchNearby']);
+// Route::get('/places/nearby', [PlacesController::class, 'searchNearby']);
 
 // おすすめ店舗取得
 Route::get('/recommend', [RecommendController::class, 'getRecommendations']);
