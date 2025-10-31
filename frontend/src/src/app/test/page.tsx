@@ -1,8 +1,8 @@
-import StoreInfo from "../../../components/store-info";
+import EventInfo from "../../../components/event-info";
 export default function TestPage() {
   return (
     <div>
-      <StoreInfo />
+      <EventInfo />
     </div>
   );
 }
