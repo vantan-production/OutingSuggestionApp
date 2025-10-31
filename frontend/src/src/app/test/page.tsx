@@ -1,8 +1,10 @@
-import EventCategory from "../../../components/event-category";
+
+
+import EventList from "../../../components/event-list";
 export default function TestPage() {
   return (
     <div>
-      <EventCategory />
+      <EventList />
     </div>
   );
 }
