@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Routing\Controller;
-
+use Symfony\Polyfill\Intl\Idn\Resources\unidata\Regex;
 
 class AuthController extends Controller
 {
@@ -74,7 +74,11 @@ class AuthController extends Controller
     }
 
     // ログアウト処理
-    public function Logout() {
+    public function Logout(Request $request) {
+        auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
+        return redirect()->route('login');
     }
 }
