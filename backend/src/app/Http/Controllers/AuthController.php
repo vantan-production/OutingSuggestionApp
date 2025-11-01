@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Routing\Controller;
 
-
 class AuthController extends Controller
 {
     //ログインページ表示
@@ -74,7 +73,11 @@ class AuthController extends Controller
     }
 
     // ログアウト処理
-    public function Logout() {
+    public function Logout(Request $request) {
+        auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
+        return redirect()->route('login');
     }
 }
