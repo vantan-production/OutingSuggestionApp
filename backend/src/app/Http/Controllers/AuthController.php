@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Routing\Controller;
-use Symfony\Polyfill\Intl\Idn\Resources\unidata\Regex;
 
 class AuthController extends Controller
 {
