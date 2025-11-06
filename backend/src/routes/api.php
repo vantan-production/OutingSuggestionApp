@@ -1,7 +1,12 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\WeatherController;
+
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:sanctum');
 
 // テスト用のシンプルなAPI
 Route::get('/test', function () {
@@ -9,4 +14,4 @@ Route::get('/test', function () {
 });
 
 // 天気API
-Route::get('/weather', [WeatherController::class, 'getWeather']);
+Route::post('/login', [AuthController::class, 'Login']);

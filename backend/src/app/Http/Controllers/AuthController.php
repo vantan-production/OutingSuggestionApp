@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Routing\Controller;
-
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -17,21 +17,22 @@ class AuthController extends Controller
 
     // ログイン処理
     public function Login(Request $request) {
-        
-        // 入力された値を保存
-        $email = $request["email"];
-        $password = $request["password"];
+        $email = $request->input('email');
+        $password = $request->input('password');
 
         $user = User::where('email', $email)->first();
 
         if (!$user || !Hash::check($password, $user->password)) {
-            $error = "メールアドレスまたはパスワードが間違っています";
-            return view('login.index', compact("error"));
+            return response()->json([
+                'error' => 'メールアドレスまたはパスワードが間違っています'
+            ], 401);
         }
+        Auth::login($user);
 
-        auth()->login($user);
-
-        return redirect()->route("top");
+        return response()->json([
+            'message' => 'ログインに成功しました',
+            'token' => $user->createToken('auth_token')->plainTextToken,
+        ], 200);
     }
 
     // サインインページ表示
