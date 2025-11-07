@@ -1,9 +1,10 @@
 
-import EventInfo from "../../../components/event-info";
+
+import EventList from "../../../components/event-list";
 export default function TestPage() {
   return (
     <div>
-      <EventInfo />
+      <EventList />
     </div>
   );
 }
