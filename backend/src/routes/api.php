@@ -20,7 +20,8 @@ Route::prefix('auth')->group(function () {
 Route::get('/weather', [WeatherController::class, 'getWeather']);
 
 // 店舗情報取得
-Route::get('/places/nearby', [PlacesController::class, 'searchNearby']);
+Route::get('/places/nearby', [PlacesController::class, 'searchNearby']);    // 近くの店舗
+Route::get('/places/details', [PlacesController::class, 'getPlaceDetails']);    // 店舗詳細
 
 // おすすめ店舗取得
 Route::get('/recommend', [RecommendController::class, 'getRecommendations']);
