@@ -18,8 +18,8 @@ class AuthController extends Controller
     // ログイン処理
     public function login(Request $request)
     {
-        $email = $request["email"];
-        $password = $request["password"];
+        $email = $request->input('email');
+        $password = $request->input('password');
 
         $user = User::where('email', $email)->first();
 
@@ -29,12 +29,11 @@ class AuthController extends Controller
                 'message' => 'メールアドレスまたはパスワードが間違っています'
             ]);
         }
-
         Auth::login($user);
 
         return response()->json([
           'success' => true,
-          'token' => $user->createToken('auth_token')->plainTextToken
+          'token' => $user->createToken('access_token')->plainTextToken
         ]);
     }
 
