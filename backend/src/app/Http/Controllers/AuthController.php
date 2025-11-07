@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -15,22 +16,47 @@ class AuthController extends Controller
     }
 
     // ログイン処理
-    public function Login(Request $request) {
-        
-        // 入力された値を保存
+    public function login(Request $request)
+    {
         $email = $request["email"];
         $password = $request["password"];
 
         $user = User::where('email', $email)->first();
 
         if (!$user || !Hash::check($password, $user->password)) {
-            $error = "メールアドレスまたはパスワードが間違っています";
-            return view('login.index', compact("error"));
+            return response()->json([
+                'success' => false,
+                'message' => 'メールアドレスまたはパスワードが間違っています'
+            ]);
         }
 
-        auth()->login($user);
+        Auth::login($user);
 
-        return redirect()->route("top");
+        return response()->json([
+          'success' => true,
+          'token' => $user->createToken('auth_token')->plainTextToken
+        ]);
+    }
+
+    // サインアップ
+    public function signUp(Request $request)
+    {
+        $name = $request["name"];
+        $email = $request["email"];
+        $password = $request["password"];
+
+        $user = User::create([
+            'name' => $name,
+            'email' => $email,
+            'password' => Hash::make($password)
+        ]);
+
+        Auth::login($user);
+
+        return response()->json([
+          'success' => true,
+          'token' => $user->createToken('auth_token')->plainTextToken
+        ]);
     }
 
     // サインインページ表示
@@ -66,7 +92,7 @@ class AuthController extends Controller
         ]);
 
         // ログイン処理
-        auth()->login($user);
+        Auth::login($user);
 
         // 次のページへ移動
         return redirect()->route('top');
@@ -74,7 +100,7 @@ class AuthController extends Controller
 
     // ログアウト処理
     public function Logout(Request $request) {
-        auth()->logout();
+        Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
