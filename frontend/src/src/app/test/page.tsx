@@ -1,10 +1,10 @@
 
-
-import EventList from "../../../components/event-list";
+import StoreInfo from "../../../components/store-info";
+import TopPage from "../top/page";
 export default function TestPage() {
   return (
     <div>
-      <EventList />
+      <TopPage />
     </div>
   );
 }
