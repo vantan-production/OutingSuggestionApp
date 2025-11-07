@@ -1,8 +1,6 @@
 'use client'
-import { useSession} from 'next-auth/react'
 
 function Header() {
-    const { data: session, status } = useSession();
     return(
         <header>
             <div className="h-8 bg-white"></div>
@@ -11,10 +9,6 @@ function Header() {
                 <a href="/top" className="border border-black w-32 h-10">
                     <img src="/image/uta.png" alt="app-logo" className="w-32 h-10 object-fill"/>
                 </a>
-                
-                {status === "loading" ? (
-                    <div>読み込み中...</div>
-                ) : session ? (
                     <div className='flex gap-2.5 justify-center items-center'>
                       <a href="/profile" className='w-11 y-11'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none">
@@ -32,13 +26,6 @@ function Header() {
                         </svg>
                       </a>
                     </div>
-                ) : (
-                    <a href="/login" className="x-11 y-11">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M10 17L15 12M15 12L10 7M15 12H3M15 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H15" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </a>
-                )}
             </div>
 
         </header>
