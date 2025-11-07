@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -25,7 +24,6 @@ class AuthController extends Controller
                 'message' => 'メールアドレスまたはパスワードが間違っています'
             ]);
         }
-        Auth::login($user);
 
         return response()->json([
             'success' => true,
@@ -51,8 +49,6 @@ class AuthController extends Controller
             'password' => Hash::make($password)
         ]);
 
-        Auth::login($user);
-
         return response()->json([
             'success' => true,
             'user' => $user,
@@ -62,10 +58,10 @@ class AuthController extends Controller
 
     // ログアウト処理
     public function logout(Request $request) {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        $request->user()->currentAccessToken()->delete();
 
-        return redirect()->route('login');
+        return response()->json([
+            'success' => true,
+        ]);
     }
 }
