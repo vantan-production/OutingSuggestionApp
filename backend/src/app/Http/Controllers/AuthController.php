@@ -16,7 +16,8 @@ class AuthController extends Controller
     }
 
     // ログイン処理
-    public function Login(Request $request) {
+    public function login(Request $request)
+    {
         $email = $request->input('email');
         $password = $request->input('password');
 
@@ -24,15 +25,37 @@ class AuthController extends Controller
 
         if (!$user || !Hash::check($password, $user->password)) {
             return response()->json([
-                'error' => 'メールアドレスまたはパスワードが間違っています'
-            ], 401);
+                'success' => false,
+                'message' => 'メールアドレスまたはパスワードが間違っています'
+            ]);
         }
         Auth::login($user);
 
         return response()->json([
-            'message' => 'ログインに成功しました',
-            'token' => $user->createToken('auth_token')->plainTextToken,
-        ], 200);
+          'success' => true,
+          'token' => $user->createToken('access_token')->plainTextToken
+        ]);
+    }
+
+    // サインアップ
+    public function signUp(Request $request)
+    {
+        $name = $request["name"];
+        $email = $request["email"];
+        $password = $request["password"];
+
+        $user = User::create([
+            'name' => $name,
+            'email' => $email,
+            'password' => Hash::make($password)
+        ]);
+
+        Auth::login($user);
+
+        return response()->json([
+          'success' => true,
+          'token' => $user->createToken('auth_token')->plainTextToken
+        ]);
     }
 
     // サインインページ表示
@@ -68,7 +91,7 @@ class AuthController extends Controller
         ]);
 
         // ログイン処理
-        auth()->login($user);
+        Auth::login($user);
 
         // 次のページへ移動
         return redirect()->route('top');
@@ -76,7 +99,7 @@ class AuthController extends Controller
 
     // ログアウト処理
     public function Logout(Request $request) {
-        auth()->logout();
+        Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
