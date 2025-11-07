@@ -78,4 +78,53 @@ class PlacesController extends Controller
             'message' => $response->json()
         ], 500);
     }
+
+
+    /**
+     * 店舗の詳細情報を取得
+     */
+    public function getPlaceDetails(Request $request) {
+        // 該当店舗のidを取得
+        $placeId = $request->query('place_id');
+
+        // バリデーション
+        if (!$placeId) {
+            return response()->json(['error' => '店舗idが存在しません'], 400);
+        }
+
+        // Places API - Place Details 呼び出し
+        $placesApiKey = env('GOOGLE_PLACES_API_KEY');
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'X-Goog-Api-Key' => $placesApiKey,
+            'X-Goog-FieldMask' => 'id,displayName,formattedAddress,types,rating,currentOpeningHours,regularOpeningHours,internationalPhoneNumber,photos'
+        ])->get("https://places.googleapis.com/v1/{$placeId}");
+
+        // エラー処理
+        if (!$response->successful()) {
+            return response()->json([
+                'error' => '店舗詳細の取得に失敗',
+                'status' => $response->status(),
+            ], 500);
+        }
+
+        // 店舗詳細データ取得
+        $place = $response->json();
+
+        // 簡潔な形式に整形して返す
+        return response()->json([
+            'id' => $place['id'] ?? null,
+            'name' => $place['displayName']['text'] ?? 'N/A',
+            'address' => $place['formattedAddress'] ?? 'N/A',
+            'rating' => $place['rating'] ?? null,   // 評価
+            'genre' => $place['types'] ?? [],
+            'open_today' => $place['currentOpeningHours']['openNow'] ?? null,    // 営業中か
+            'opening_hours' => $place['regularOpeningHours']['weekdayDescriptions'] ?? [],  // 営業時間
+            'phone' => $place['internationalPhoneNumber'] ?? null,  // 国際電話番号形式
+            'images' => array_map(function($photo) {    // 店舗の写真（複数対応）
+                return $photo['name'] ?? null;
+            }, $place['photos'] ?? [])
+        ]);
+    }
 }
