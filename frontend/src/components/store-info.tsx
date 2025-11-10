@@ -68,9 +68,9 @@ export function StoreInfo () {
     }, []);
 
     return (
-        <div className=" w-44 rounded-lg overflow-hidden ">
+        <div className=" w-44 rounded-lg overflow-hidden">
             <img className=" w-44 h-24 " src={storeInfo[0]?.photos[0]?.url ?? ""} alt="store-photo" />
-            <div className=" bg-orange  w-44 p-1 ">
+            <div className=" bg-orange  w-44 p-1">
                 <ul>
                     <li className=" p mx-1 ">{storeInfo[0]?.name}</li>
                     <li className=" h4 text-beige mx-1 ">{storeInfo[0]?.open_today ? "営業中" : "休業中"}</li>

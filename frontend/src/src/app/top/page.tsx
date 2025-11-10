@@ -1,7 +1,10 @@
+"use client";
+import { useRouter } from "next/navigation";
 import EventCategory from "../../../components/event-category";
 import StoreInfo from "../../../components/store-info";
 
 function TopPage() {
+  const router = useRouter();
   return (
     <div className="bg-beige text-black mx-auto">
       <header>
@@ -23,9 +26,9 @@ function TopPage() {
         <section>
           <div>
             <h2 className="h2 ml-4">【 近くのおすすめ店舗 】</h2>
-            <div className="my-5 px-5 flex flex-wrap">
+            <div className="my-5 px-5 grid grid-cols-2 gap-4 w-full justify-items-center items-center">
               {[...Array(6)].map((_, index) => (
-                <div key={index} className="wh-42 p-2">
+                <div key={index} className="w-43 h-full">
                   <StoreInfo />
                 </div>
               ))}
@@ -33,11 +36,17 @@ function TopPage() {
           </div>
 
 
-          <div className="text-center mb-20"><button className="text-white bg-black rounded-lg px-3 py-2">もっと見る</button></div>
+          <div className="text-center mb-20">
+            <button className="text-white bg-black rounded-lg px-3 py-2"
+            onClick={() => router.push("/NearbyStore")}
+            >
+              もっと見る
+              </button>
+          </div>
         </section>
       </main>
       <footer className="text-center">
-        <button className="text-white bg-blue rounded-2xl px-40 py-3 mb-10 h3">AI検索</button>
+        <button className="text-white bg-blue rounded-5 h2-bold w-93 h-17">AI検索</button>
       </footer>
     </div>
   );
