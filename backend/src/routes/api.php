@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\PlacesController;
 use App\Http\Controllers\RecommendController;
+use App\Http\Controllers\FavoriteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,7 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/favorites', [FavoriteController::class, 'index']);
     Route::post('/favorites', [FavoriteController::class, 'store']);
     Route::delete('/favorites/{id}', [FavoriteController::class, 'destroy']);
-    Route::get('/favorites/check/{placeId}', [FavoriteController::class, 'check']);
+    Route::post('/favorites/check', [FavoriteController::class, 'check']);
 });
 
 // 天気情報取得
