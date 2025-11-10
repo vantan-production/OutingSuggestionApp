@@ -17,6 +17,13 @@ Route::prefix('auth')->group(function () {
     Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 });
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/favorites', [FavoriteController::class, 'index']);
+    Route::post('/favorites', [FavoriteController::class, 'store']);
+    Route::delete('/favorites/{id}', [FavoriteController::class, 'destroy']);
+    Route::get('/favorites/check/{placeId}', [FavoriteController::class, 'check']);
+});
+
 // 天気情報取得
 Route::get('/weather', [WeatherController::class, 'getWeather']);
 
