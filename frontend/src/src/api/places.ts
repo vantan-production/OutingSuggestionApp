@@ -8,6 +8,10 @@ export  type SurroundingStores = {
     genres: string;
     // 開店中
     only_open: boolean;
+    // 写真
+    photos: boolean;
+    // レビュー
+    reviews: boolean;
 }
 export type Place = {
     // id
@@ -27,6 +31,8 @@ export type Place = {
     lon: number;
     // 写真
     photos: {url: string}[];
+    // レビュー
+    reviews: any[];
 }
 export type ResponseInfo = {
     // error
@@ -40,6 +46,7 @@ export type ResponseInfo = {
 export const DEFAULT_LAT = 35.1885;
 export const DEFAULT_LON = 136.9066;
 
+// 店舗情報を取得する関数
 export  function storeInfo (req: SurroundingStores): Promise<Place[]> {
     // paramsに空の配列
     const empty = new URLSearchParams({
@@ -48,6 +55,8 @@ export  function storeInfo (req: SurroundingStores): Promise<Place[]> {
         lon: req.lon.toString(),
         genre: req.genres,
         only_open: req.only_open.toString(),
+        ...(req.photos !== undefined && { photos: req.photos.toString() }),
+        ...(req.reviews !== undefined && { reviews: req.reviews.toString() }),
     });
     // Promis<Response>を返すために${empty}を使用    
     return fetch(`http://localhost:8007/api/places/nearby?${empty}`, {
@@ -70,6 +79,7 @@ export  function storeInfo (req: SurroundingStores): Promise<Place[]> {
                     lat: place.lat,
                     lon: place.lon,
                     photos: place.photos || [],
+                    reviews: place.reviews || [],
                 }
             })
         } else {
