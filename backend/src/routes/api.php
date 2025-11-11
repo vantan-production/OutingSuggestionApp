@@ -23,5 +23,8 @@ Route::get('/weather', [WeatherController::class, 'getWeather']);
 // 店舗情報取得
 Route::get('/places/nearby', [PlacesController::class, 'searchNearby']);
 
+// デフォルト座標取得
+Route::get('/places/default-location', [PlacesController::class, 'getDefaultLocation']);
+
 // おすすめ店舗取得
 Route::get('/recommend', [RecommendController::class, 'getRecommendations']);
