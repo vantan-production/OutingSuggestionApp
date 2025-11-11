@@ -14,6 +14,12 @@ class PlacesController extends Controller
             'lon' => env('DEFAULT_LON', 136.9066),
         ]);
     }
+    public function getDefaultLocation() {
+        return response()->json([
+            'lat' => env('DEFAULT_LAT', 35.1815),
+            'lon' => env('DEFAULT_LON', 136.9066),
+        ]);
+    }
     /**
      * 座標周辺の店舗を検索
      */
@@ -28,7 +34,9 @@ class PlacesController extends Controller
 
         // テスト用
         // こことfrontend/src/src/api/places.tsのDEFAULT_LATとDEFAULT_LONは一致しているので両方変更する
+        // こことfrontend/src/src/api/places.tsのDEFAULT_LATとDEFAULT_LONは一致しているので両方変更する
         if (!$lat || !$lon) {
+            $lat = 35.1885;
             $lat = 35.1885;
             $lon = 136.9066;
         }
