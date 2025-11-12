@@ -19,6 +19,17 @@
     --space-6: 24px;
     --space-7: 28px;
 
+    /* radius */
+    --radius-1: var(--space-1);
+    --radius-2: var(--space-2);
+    --radius-2-5: var(--space-2-5);
+    --radius-3: var(--space-3);
+    --radius-3-5: var(--space-3-5);
+    --radius-4: var(--space-4);
+    --radius-5: var(--space-5);
+    --radius-6: var(--space-6);
+    --radius-7: var(--space-7);
+ 
     /* font */
     --font:"Kiwi Maru", serif; 
 
@@ -29,6 +40,7 @@
     --font-h4: 20px;
     --font-p: 16px;
     --font-small: 12px;
+    --font-mini: 8px;
 }
 .h1 {
   font-family: var(--font);
@@ -58,4 +70,8 @@
 .small {
   font-family: var(--font);
   font-size: var(--font-small);
+}
+.mini {
+  font-family: var(--font);
+  font-size: var(--font-mini);
 }

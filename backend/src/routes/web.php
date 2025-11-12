@@ -18,4 +18,4 @@ Route::get('/sign_in', [AuthController::class, 'RegisterForm']) ->name('sign_in'
 Route::post('/sign_in', [AuthController::class, 'Register']) ->name('sign_in.submit');
 
 // ログアウト処理
-Route::post('/logout', [AuthController::class, 'Logout']);
+Route::post('/logout', [AuthController::class, 'Logout'])->name('logout');
