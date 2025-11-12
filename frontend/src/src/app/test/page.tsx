@@ -1,10 +1,10 @@
 
 
-import EventList from "../../../components/event-list";
+import SortMenu from "../../../components/sort-list";
 export default function TestPage() {
   return (
     <div>
-      <EventList />
+      <SortMenu />
     </div>
   );
 }
