@@ -30,7 +30,6 @@ class PlacesController extends Controller
         // こことfrontend/src/src/api/places.tsのDEFAULT_LATとDEFAULT_LONは一致しているので両方変更する
         if (!$lat || !$lon) {
             $lat = 35.1885;
-            $lat = 35.1885;
             $lon = 136.9066;
         }
 
