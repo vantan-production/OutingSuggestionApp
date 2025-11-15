@@ -21,7 +21,8 @@ Route::prefix('auth')->group(function () {
 Route::get('/weather', [WeatherController::class, 'getWeather']);
 
 // 店舗情報取得
-Route::get('/places/nearby', [PlacesController::class, 'searchNearby']);
+Route::get('/places/nearby', [PlacesController::class, 'searchNearby']);    // 近くの店舗
+Route::get('/places/details', [PlacesController::class, 'getPlaceDetails']);    // 店舗詳細
 
 // デフォルト座標取得
 Route::get('/places/default-location', [PlacesController::class, 'getDefaultLocation']);
