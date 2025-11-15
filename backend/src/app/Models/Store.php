@@ -10,11 +10,12 @@ class Store extends Model
     use HasFactory;
 
     protected $fillable = [
+        'place_id',
         'name',
         'address',
         'opening_hours',
         'open_today',
-        'image_url',
+        'images',
         'genre',
         'rating',
         'lat',
@@ -25,6 +26,8 @@ class Store extends Model
     protected $casts = [
         'opening_hours' => 'array',
         'open_today' => 'boolean',
+        'images' => 'array',
+        'genre' => 'array',
         'rating' => 'float',
         'lat' => 'decimal:7',
         'lon' => 'decimal:7',
