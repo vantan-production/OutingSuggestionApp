@@ -2,14 +2,13 @@
 import { useRouter } from "next/navigation";
 import EventCategory from "../../../components/event-category";
 import StoreInfo from "../../../components/store-info";
+import GuestHeader from "../../../components/guestHeader";
 
 function TopPage() {
   const router = useRouter();
   return (
     <div className="bg-beige text-black mx-auto">
-      <header>
-        <div>header</div>
-      </header>
+      <GuestHeader />
       <main>
         <section>
           <h2 className="h2 ml-4 mt-15">【 近くで開催中のイベント 】</h2>

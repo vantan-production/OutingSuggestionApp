@@ -26,7 +26,6 @@ function Header() {
     
     return(
         <div>
-            <div className="h-8 bg-white"></div>
             <div className="bg-orange w-full h-16 flex justify-between px-2.5 items-center radius-2-5">
                
                 {/* 仮でアプリのロゴを表示 */}
