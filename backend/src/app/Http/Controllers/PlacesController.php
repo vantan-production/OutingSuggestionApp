@@ -39,7 +39,7 @@ class PlacesController extends Controller
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'X-Goog-Api-Key' => $apiKey,
-            'X-Goog-FieldMask' => 'places.id,places.displayName,places.formattedAddress,places.types,places.rating,places.currentOpeningHours,places.location,places.photos,places.reviews     '
+            'X-Goog-FieldMask' => 'places.id,places.displayName,places.formattedAddress,places.types,places.rating,places.currentOpeningHours,places.location,places.photos,places.reviews'
         ])->post('https://places.googleapis.com/v1/places:searchNearby', [
             'locationRestriction' => [
                 'circle' => [
@@ -132,7 +132,7 @@ class PlacesController extends Controller
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'X-Goog-Api-Key' => $placesApiKey,
-            'X-Goog-FieldMask' => 'id,displayName,formattedAddress,types,rating,currentOpeningHours,regularOpeningHours,internationalPhoneNumber,photos'
+            'X-Goog-FieldMask' => 'id,displayName,formattedAddress,types,rating,currentOpeningHours,regularOpeningHours,photos,reviews,internationalPhoneNumber,photos'
         ])->get("https://places.googleapis.com/v1/{$placeId}");
 
         // エラー処理
@@ -159,6 +159,20 @@ class PlacesController extends Controller
                 }
             }
         }
+        // レビュー情報を整形
+        $placeReviews = [];
+        if (isset($place['reviews']) && is_array($place['reviews'])) {
+            $placeReviews = array_map(function($review) {
+                return [
+                    'rating' => $review['rating'] ?? null,
+                    'text' => $review['text']['text'] ?? '',
+                    'author' => $review['authorAttribution']['displayName'] ?? '匿名',
+                    'author_photo' => $review['authorAttribution']['photoUri'] ?? null,
+                    'date' => $review['publishTime'] ?? null,
+                    'relative_time' => $review['relativePublishTimeDescription'] ?? ''
+                ];
+            }, $place['reviews']);
+        }
 
         // 簡潔な形式に整形して返す
         return response()->json([
@@ -170,7 +184,8 @@ class PlacesController extends Controller
             'open_today' => $place['currentOpeningHours']['openNow'] ?? null,    // 営業中か
             'opening_hours' => $place['regularOpeningHours']['weekdayDescriptions'] ?? [],  // 営業時間
             'phone' => $place['internationalPhoneNumber'] ?? null,  // 国際電話番号形式
-            'images' => $placePhotos
+            'images' => $placePhotos,
+            'reviews' => $placeReviews
         ]);
     }
 }
