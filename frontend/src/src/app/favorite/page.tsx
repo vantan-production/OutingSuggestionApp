@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import StoreList from "../../../components/store-list";
+import FavoriteList from "../../../components/favorite-list";
 import Header from "../../../components/guestHeader";
 
 function FavoriteForm() {
@@ -21,10 +21,10 @@ function FavoriteForm() {
                 </div>
                 <section className="flex flex-col items-center">
                     {/* 後で変数出力に切り替え */}
-                    <StoreList></StoreList>
-                    <StoreList></StoreList>
-                    <StoreList></StoreList>
-                    <StoreList></StoreList>
+                    <FavoriteList/>
+                    <FavoriteList/>
+                    <FavoriteList/>
+                    <FavoriteList/>
                 </section>
             </main>
             
