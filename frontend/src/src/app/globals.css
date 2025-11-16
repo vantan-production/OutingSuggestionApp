@@ -75,3 +75,8 @@
   font-family: var(--font);
   font-size: var(--font-mini);
 }
+.border0-33 {
+  border: 0.33px solid;
+  border-color: var(--color-blue);
+  border-radius: var(--radius-3);
+}

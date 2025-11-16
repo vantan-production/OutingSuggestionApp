@@ -20,7 +20,11 @@ function TopPage() {
             ))}
           </div>
 
-          <div className="text-center mb-15"><button className="text-white bg-black rounded-lg px-3 py-2">もっと見る</button></div>
+          <div className="text-center mb-15">
+            <button className="text-white bg-black rounded-lg px-3 py-2">
+              もっと見る
+            </button>
+          </div>
         </section>
         <section>
           <div>
@@ -34,18 +38,20 @@ function TopPage() {
             </div>
           </div>
 
-
           <div className="text-center mb-20">
-            <button className="text-white bg-black rounded-lg px-3 py-2"
-            onClick={() => router.push("/NearbyStore")}
+            <button
+              className="text-white bg-black rounded-lg px-3 py-2"
+              onClick={() => router.push("/NearbyStore")}
             >
               もっと見る
-              </button>
+            </button>
           </div>
         </section>
       </main>
       <footer className="text-center">
-        <button className="text-white bg-blue rounded-5 h2-bold w-93 h-17">AI検索</button>
+        <button className="text-white bg-blue rounded-5 h2-bold w-93 h-17">
+          AI検索
+        </button>
       </footer>
     </div>
   );
