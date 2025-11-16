@@ -6,7 +6,10 @@ import StoreInfo from "../../../components/store-info";
 
 function TopPage() {
   const [isOpen, setIsOpen] = useState(false);
+  const [hideFloatingButton, setHideFloatingButton] = useState(false);
+
   const buttonRef = useRef<HTMLDivElement | null>(null);
+  const footerButtonRef = useRef<HTMLButtonElement | null>(null); // ← footer監視用
 
   // 画面外タップで閉じる処理
   useEffect(() => {
@@ -23,12 +26,25 @@ function TopPage() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
-  // footer の AI検索 が画面内に存在する → 右下ボタンを隠す
-  const hideFloatingButton = false; // 必ず footer があるページなので true でOK
+  // footer の AI検索 ボタンが画面に映っているか監視
+  useEffect(() => {
+    if (!footerButtonRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        setHideFloatingButton(entry.isIntersecting);
+      },
+      { root: null, threshold: 0.1 }
+    );
+
+    observer.observe(footerButtonRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   // AI検索ページへ遷移（仮）
   const goToSearchPage = () => {
-    window.location.href = "/ai-search"; // 必要に合わせて変更
+    window.location.href = "/ai-search";
   };
 
   return (
@@ -76,12 +92,15 @@ function TopPage() {
       </main>
 
       <footer className="text-center">
-        <button className="text-white bg-blue rounded-2xl px-40 py-3 mb-10 h3">
+        <button
+          ref={footerButtonRef}
+          className="text-white bg-blue rounded-2xl w-90 h-14 mb-10 h3"
+        >
           AI検索
         </button>
       </footer>
 
-      {/* 右下のコンパクト AI検索ボタン（スマホのみ） */}
+      {/* 右下のコンパクト AI検索ボタン（スマホのみ / footerが見えたら消える） */}
       {!hideFloatingButton && (
         <div
           ref={buttonRef}
@@ -92,9 +111,9 @@ function TopPage() {
           } flex items-center justify-center text-sm`}
           onClick={() => {
             if (isOpen) {
-              goToSearchPage(); // 2回目タップで遷移
+              goToSearchPage();
             } else {
-              setIsOpen(true); // 初回タップで展開
+              setIsOpen(true);
             }
           }}
         >
