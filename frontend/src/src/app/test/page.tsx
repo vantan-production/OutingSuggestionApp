@@ -1,10 +1,8 @@
-
-import StoreInfo from "../../../components/store-info";
-import TopPage from "../top/page";
+import SortMenu from "../../../components/sort-list";
 export default function TestPage() {
   return (
     <div>
-      <TopPage />
+      <SortMenu />
     </div>
   );
 }
