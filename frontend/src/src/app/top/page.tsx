@@ -2,14 +2,13 @@
 import { useRouter } from "next/navigation";
 import EventCategory from "../../../components/event-category";
 import StoreInfo from "../../../components/store-info";
+import GuestHeader from "../../../components/guestHeader";
 
 function TopPage() {
   const router = useRouter();
   return (
     <div className="bg-beige text-black mx-auto">
-      <header>
-        <div>header</div>
-      </header>
+      <GuestHeader />
       <main>
         <section>
           <h2 className="h2 ml-4 mt-15">【 近くで開催中のイベント 】</h2>
@@ -21,7 +20,11 @@ function TopPage() {
             ))}
           </div>
 
-          <div className="text-center mb-15"><button className="text-white bg-black rounded-lg px-3 py-2">もっと見る</button></div>
+          <div className="text-center mb-15">
+            <button className="text-white bg-black rounded-lg px-3 py-2">
+              もっと見る
+            </button>
+          </div>
         </section>
         <section>
           <div>
@@ -35,18 +38,20 @@ function TopPage() {
             </div>
           </div>
 
-
           <div className="text-center mb-20">
-            <button className="text-white bg-black rounded-lg px-3 py-2"
-            onClick={() => router.push("/NearbyStore")}
+            <button
+              className="text-white bg-black rounded-lg px-3 py-2"
+              onClick={() => router.push("/NearbyStore")}
             >
               もっと見る
-              </button>
+            </button>
           </div>
         </section>
       </main>
       <footer className="text-center">
-        <button className="text-white bg-blue rounded-5 h2-bold w-93 h-17">AI検索</button>
+        <button className="text-white bg-blue rounded-5 h2-bold w-93 h-17">
+          AI検索
+        </button>
       </footer>
     </div>
   );
