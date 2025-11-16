@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\PlacesController;
 use App\Http\Controllers\RecommendController;
+use App\Http\Controllers\FavoriteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,11 +18,19 @@ Route::prefix('auth')->group(function () {
     Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 });
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/favorites', [FavoriteController::class, 'index']);
+    Route::post('/favorites', [FavoriteController::class, 'store']);
+    Route::delete('/favorites/{id}', [FavoriteController::class, 'destroy']);
+    Route::post('/favorites/check', [FavoriteController::class, 'check']);
+});
+
 // 天気情報取得
 Route::get('/weather', [WeatherController::class, 'getWeather']);
 
 // 店舗情報取得
-Route::get('/places/nearby', [PlacesController::class, 'searchNearby']);
+Route::get('/places/nearby', [PlacesController::class, 'searchNearby']);    // 近くの店舗
+Route::get('/places/details', [PlacesController::class, 'getPlaceDetails']);    // 店舗詳細
 
 // デフォルト座標取得
 Route::get('/places/default-location', [PlacesController::class, 'getDefaultLocation']);
