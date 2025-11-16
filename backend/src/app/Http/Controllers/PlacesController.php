@@ -60,25 +60,27 @@ class PlacesController extends Controller
 
             // 簡潔な形式に整形
             $places = array_map(function($place) use ($apiKey) {
-            // 店舗の緯度と経度を取得
-            $placeLat = $place['location']['latitude'] ?? null;
-            $placeLon = $place['location']['longitude'] ?? null;
-            $placePhotos = [];
-            if (isset($place['photos']) && is_array($place['photos']) && count($place['photos']) > 0) {
-                foreach ($place['photos'] as $photo) {
-                    if (isset($photo['name'])) {
-                        // Google Places APIのMedia APIエンドポイントを使用
-                        $photoName = $photo['name'];
-                        $placePhotos[] = [
-                            'url' => "https://places.googleapis.com/v1/{$photoName}/media?maxHeightPx=400&maxWidthPx=400&key={$apiKey}"
-                        ];
+
+                // 店舗の緯度と経度を取得
+                $placeLat = $place['location']['latitude'] ?? null;
+                $placeLon = $place['location']['longitude'] ?? null;
+
+                $placePhotos = [];
+                if (isset($place['photos']) && is_array($place['photos']) && count($place['photos']) > 0) {
+                    foreach ($place['photos'] as $photo) {
+                        if (isset($photo['name'])) {
+                            // Google Places APIのMedia APIエンドポイントを使用
+                            $photoName = $photo['name'];
+                            $placePhotos[] = [
+                                'url' => "https://places.googleapis.com/v1/{$photoName}/media?maxHeightPx=400&maxWidthPx=400&key={$apiKey}"
+                            ];
+                        }
                     }
                 }
-            }
-            $placeReviews = [];
-            if (isset($place['reviews']) && is_array($place['reviews'])) {
-                $placeReview = $place['reviews'];
-            }
+                $placeReviews = [];
+                if (isset($place['reviews']) && is_array($place['reviews'])) {
+                    $placeReview = $place['reviews'];
+                }
                 return [
                     'id' => $place['id'] ?? null,
                     'name' => $place['displayName']['text'] ?? 'N/A',
@@ -144,6 +146,20 @@ class PlacesController extends Controller
         // 店舗詳細データ取得
         $place = $response->json();
 
+        // 写真URLを生成
+        $placePhotos = [];
+        if (isset($place['photos']) && is_array($place['photos']) && count($place['photos']) > 0) {
+            foreach ($place['photos'] as $photo) {
+                if (isset($photo['name'])) {
+                    // Google Places APIのMedia APIエンドポイントを使用
+                    $photoName = $photo['name'];
+                    $placePhotos[] = [
+                        'url' => "https://places.googleapis.com/v1/{$photoName}/media?maxHeightPx=400&maxWidthPx=400&key={$apiKey}"
+                    ];
+                }
+            }
+        }
+
         // 簡潔な形式に整形して返す
         return response()->json([
             'id' => $place['id'] ?? null,
@@ -154,9 +170,7 @@ class PlacesController extends Controller
             'open_today' => $place['currentOpeningHours']['openNow'] ?? null,    // 営業中か
             'opening_hours' => $place['regularOpeningHours']['weekdayDescriptions'] ?? [],  // 営業時間
             'phone' => $place['internationalPhoneNumber'] ?? null,  // 国際電話番号形式
-            'images' => array_map(function($photo) {    // 店舗の写真（複数対応）
-                return $photo['name'] ?? null;
-            }, $place['photos'] ?? [])
+            'images' => $placePhotos
         ]);
     }
 }
