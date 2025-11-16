@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import EventCategory from "../../../components/event-category";
 import StoreInfo from "../../../components/store-info";
+import GuestHeader from "../../../components/guestHeader";
 
 function TopPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -74,9 +75,9 @@ function TopPage() {
         <section>
           <div>
             <h2 className="h2 ml-4">【 近くのおすすめ店舗 】</h2>
-            <div className="my-5 px-5 flex flex-wrap">
+            <div className="my-5 px-5 grid grid-cols-2 gap-4 w-full justify-items-center items-center">
               {[...Array(6)].map((_, index) => (
-                <div key={index} className="wh-42 p-2">
+                <div key={index} className="w-43 h-full">
                   <StoreInfo />
                 </div>
               ))}
