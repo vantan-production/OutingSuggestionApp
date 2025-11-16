@@ -3,7 +3,7 @@
 
 function StoreList() {
   return (
-  <div className="p-5">
+  <div className="pb-5">
     <div className="bg-orange flex w-93 h-35 rounded-lg items-center justify-between p-2 text-black">
       <div><img src="/images/store-list-image.png" alt="store-image" /></div>
       <div>
