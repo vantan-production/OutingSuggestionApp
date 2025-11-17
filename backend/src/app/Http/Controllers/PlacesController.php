@@ -23,8 +23,6 @@ class PlacesController extends Controller
         $lon = $request->query('lon');
         $genre = $request->query('genre', 'restaurant');
         $onlyOpen = $request->query('only_open', false);
-        $photos = $request->query('photos', false);
-        $review = $request->query('review', false);
 
         // テスト用
         // こことfrontend/src/src/api/places.tsのDEFAULT_LATとDEFAULT_LONは一致しているので両方変更する
@@ -91,7 +89,7 @@ class PlacesController extends Controller
                     'lat' => $placeLat,
                     'lon' => $placeLon,
                     'photos' => $placePhotos,
-                    'review' => $placeReview
+                    'reviews' => $placeReviews
                 ];
             }, $data['places'] ?? []);
 
