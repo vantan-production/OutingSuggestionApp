@@ -1,47 +1,96 @@
 @import "tailwindcss";
 
 @theme {
-    /* color */
-    --color-orange: #E4925C;
-    --color-blue: #25559D;
-    --color-white: #f7f7f7;
-    --color-black: #505050;
-    --color-beige: #EEE0CC;
+  /* color */
+  --color-orange: #e4925c;
+  --color-blue: #25559d;
+  --color-white: #f7f7f7;
+  --color-black: #505050;
+  --color-beige: #eee0cc;
 
-    /* spacing */
-    --space-1: 4px;
-    --space-2: 8px;
-    --space-2-5: 10px;
-    --space-3: 12px;
-    --space-3-5: 15px;
-    --space-4: 16px;
-    --space-5: 20px;
-    --space-6: 24px;
-    --space-7: 28px;
+  /* spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-2-5: 10px;
+  --space-3: 12px;
+  --space-3-5: 15px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
 
-    /* radius */
-    --radius-1: var(--space-1);
-    --radius-2: var(--space-2);
-    --radius-2-5: var(--space-2-5);
-    --radius-3: var(--space-3);
-    --radius-3-5: var(--space-3-5);
-    --radius-4: var(--space-4);
-    --radius-5: var(--space-5);
-    --radius-6: var(--space-6);
-    --radius-7: var(--space-7);
- 
-    /* font */
-    --font:"Kiwi Maru", serif; 
+  /* radius */
+  --radius-1: var(--space-1);
+  --radius-2: var(--space-2);
+  --radius-2-5: var(--space-2-5);
+  --radius-3: var(--space-3);
+  --radius-3-5: var(--space-3-5);
+  --radius-4: var(--space-4);
+  --radius-5: var(--space-5);
+  --radius-6: var(--space-6);
+  --radius-7: var(--space-7);
 
-    --font-h1: 26px;
-    --font-h2: 24px;
-    --font-h2-medium: 24px;
-    --font-h3: 22px;
-    --font-h4: 20px;
-    --font-p: 16px;
-    --font-small: 12px;
-    --font-mini: 8px;
+  /* font */
+  --font: "Kiwi Maru", serif;
+
+  --font-h1: 26px;
+  --font-h2: 24px;
+  --font-h2-medium: 24px;
+  --font-h3: 22px;
+  --font-h4: 20px;
+  --font-p: 16px;
+  --font-small: 12px;
+  --font-mini: 8px;
 }
+
+/* rc-sliderのカスタムスタイル */
+.rc-slider-rail {
+  background-color: var(--color-blue) !important;
+  opacity: 0.5 !important;
+  height: 8px !important;
+  border-radius: 10px !important;
+  margin-top: 5px !important;
+}
+
+.rc-slider-track {
+  background-color: var(--color-blue) !important;
+  height: 16px !important;
+  border-radius: 10px !important;
+}
+
+.rc-slider-handle {
+  border-color: var(--color-blue) !important;
+  background-color: var(--color-blue) !important;
+  width: 20px !important;
+  height: 20px !important;
+  margin-top: -2px !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.rc-slider-handle:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: var(--color-blue) !important;
+}
+
+.rc-slider-handle:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.rc-slider-handle-dragging {
+  border-color: var(--color-blue) !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.rc-slider-handle:active {
+  border-color: var(--color-blue) !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
 .h1 {
   font-family: var(--font);
   font-size: var(--font-h1);
@@ -74,4 +123,24 @@
 .mini {
   font-family: var(--font);
   font-size: var(--font-mini);
+}
+
+/* モーダルが開いている時にスライダーを非表示 */
+body.modal-open .rc-slider,
+body.modal-open .rc-slider-rail,
+body.modal-open .rc-slider-track,
+body.modal-open .rc-slider-handle {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* または、スライダーを含むコンテナ全体を非表示にする場合 */
+body.modal-open [class*="distance-slider"],
+body.modal-open [class*="DistanceSlider"] {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
 }
