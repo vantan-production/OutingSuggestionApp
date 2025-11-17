@@ -21,10 +21,10 @@ type Store = {
   id: string;
   name: string;
   address: string;
-  rating: number | null;
-  genre: string[];
-  open_today: boolean | null;
-  opening_hours: string[];
+  rating: number | null;      // 評価
+  open_today: boolean | null; // 現在営業中か
+  today_hours: string | null; // 今日の営業時間
+  opening_hours: string[];    // 全曜日の営業時間
   phone: string | null;
   images: { url: string }[];
   reviews: Review[];
@@ -125,7 +125,7 @@ function StoreDetailPage({ params }: Props) {
           {store.open_today === false && (
             <h3>営業時間外</h3>
           )}
-          <p>{store.opening_hours}</p>
+          <p>{store.today_hours}</p>
         </div>
 
         {/* 住所 */}

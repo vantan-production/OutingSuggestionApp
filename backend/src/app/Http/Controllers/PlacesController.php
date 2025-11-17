@@ -197,7 +197,12 @@ class PlacesController extends Controller
             $today = (int)date('w');
 
             $index = ($today === 0) ? 6 : $today - 1;
-            $todayHours = $place['currentOpeningHours']['weekdayDescriptions'][$index] ?? null;
+            $fullText = $place['currentOpeningHours']['weekdayDescriptions'][$index] ?? null;
+
+            // 曜日を削除し、時間だけを取得
+            if ($fullText) {
+                $todayHours = preg_replace('/^[^:]+:\s*/', '', $fullText);
+            }
         }
 
         // 簡潔な形式に整形して返す
