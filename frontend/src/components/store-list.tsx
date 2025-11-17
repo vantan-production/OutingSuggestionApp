@@ -43,6 +43,7 @@ function StoreList({ store }: StoreListProps) {
   };
 
   return (
+
     <div className="p-5">
       <div className="bg-orange flex w-93 h-35 rounded-lg items-center between p-2 text-black">
         <div>
