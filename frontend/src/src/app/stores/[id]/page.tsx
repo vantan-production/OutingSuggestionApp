@@ -122,7 +122,7 @@ function StoreDetailPage({ params }: Props) {
           {store.open_today === true && (
             <h3>営業時間中</h3>
           )}
-          {store.open_today === true && (
+          {store.open_today === false && (
             <h3>営業時間外</h3>
           )}
           <p>{store.opening_hours}</p>
