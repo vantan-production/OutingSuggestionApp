@@ -87,21 +87,20 @@ function StoreDetailPage({ params }: Props) {
       {/* 戻るボタン */}
       <button>←戻る</button>
 
-      {/* 店舗写真（評価星、お気に入り・一時保存・共有ボタン） */}
       {store.images.length > 0 && (
         <div>
+          {/* 写真 */}
           <div>
-            {store.images.slice(0, 3).map((photo, index) => (
+            {store.images.slice(0, 1).map((photo, index) => (
               <img key={index} src={photo.url} alt={`${store.name}の写真${index + 1}`} />
             ))}
-            <div>画像が入ります</div>
           </div>
-          <div>
-            <div>
-              <div>星画像</div>
-              <p>4.5（仮）</p>
-            </div>
-            <ul>
+          
+          <div className="flex">
+            {/* 評価 */}
+            <div>☆{store.rating}</div>
+            {/* 機能ボタン */}
+            <ul className="flex">
               <li>お気に入り</li>
               <li>一時保存</li>
               <li>共有</li>
@@ -112,21 +111,33 @@ function StoreDetailPage({ params }: Props) {
 
       {/* 店舗情報 */}
       <div>
-        <div>
+        {/* 店舗名 */}
+        <div className="flex">
           <h3>店舗名</h3>
-          <p>しょうき'sパスタ（仮）</p>
+          <p>{store.name}</p>
         </div>
-        <div>
-          <h3>営業時間中(仮)</h3>
-          <p>AM 0:00 ~ AM 0:00（仮）</p>
+
+        {/* 営業状態・営業時間 */}
+        <div className="flex">
+          {store.open_today === true && (
+            <h3>営業時間中</h3>
+          )}
+          {store.open_today === true && (
+            <h3>営業時間外</h3>
+          )}
+          <p>{store.opening_hours}</p>
         </div>
-        <div>
+
+        {/* 住所 */}
+        <div className="flex">
           <h3>住所</h3>
-          <p>愛知県愛知市愛知町12-3</p>
+          <p>{store.address}</p>
         </div>
-        <div>
+        
+        {/* 電話番号 */}
+        <div className="flex">
           <h3>電話番号</h3>
-          <p>0000-1111-2222（仮）</p>
+          <p>{store.phone}</p>
         </div>
       </div>
 
