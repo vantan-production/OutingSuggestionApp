@@ -137,7 +137,7 @@ class PlacesController extends Controller
         // デバッグ用：ログで確認
         \Log::info('Final Place ID: ' . $placeId);
 
-        // 実際のURLを確認
+        // デバッグ用：実際のURLを確認
         $url = "https://places.googleapis.com/v1/{$placeId}";
         \Log::info('Request URL: ' . $url);
 
@@ -145,7 +145,7 @@ class PlacesController extends Controller
             'Content-Type' => 'application/json',
             'X-Goog-Api-Key' => $placesApiKey,
             'X-Goog-FieldMask' => 'id,displayName,formattedAddress,types,rating,currentOpeningHours,regularOpeningHours,internationalPhoneNumber,photos,reviews'
-        ])->get($url);
+        ])->get($url, ['languageCode' => 'ja']);
 
         // デバッグ用：レスポンスの詳細を確認
         \Log::info('Response Status: ' . $response->status());
