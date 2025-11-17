@@ -3,14 +3,14 @@ import { useRouter } from "next/navigation";
 import FavoriteList from "../../../components/favorite-list";
 import Header from "../../../components/guestHeader";
 
-function FavoriteForm() {
+function FavoritePage() {
     const router = useRouter()
 
     return(
-        <div className="bg-beige h-screen">
+        <div className="h-screen">
             <Header></Header>
 
-            <main>
+            <main className="bg-beige">
                 <div className="flex w-77 h-20 items-center justify-between mx-4">
                     <button onClick={()  => router.push("/top")}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
@@ -21,10 +21,9 @@ function FavoriteForm() {
                 </div>
                 <section className="flex flex-col items-center">
                     {/* 後で変数出力に切り替え */}
-                    <FavoriteList/>
-                    <FavoriteList/>
-                    <FavoriteList/>
-                    <FavoriteList/>
+                    {[...Array(5)].map((_ , index) => (
+                        <FavoriteList key={index}/>
+                    ))}
                 </section>
             </main>
             
@@ -32,4 +31,4 @@ function FavoriteForm() {
     );
 }
 
-export default FavoriteForm;
+export default FavoritePage;
