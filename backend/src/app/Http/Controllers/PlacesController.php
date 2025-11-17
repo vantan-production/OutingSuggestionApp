@@ -37,8 +37,7 @@ class PlacesController extends Controller
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'X-Goog-Api-Key' => $apiKey,
-            'X-Goog-FieldMask' => 'places.id,places.displayName,places.formattedAddress,places.types,places.rating,places.currentOpeningHours,places.location,places.photos,places.reviews     '
-            'X-Goog-FieldMask' => 'places.id,places.displayName,places.formattedAddress,places.types,places.rating,places.currentOpeningHours,places.location,places.photos,places.reviews     '
+            'X-Goog-FieldMask' => 'places.id,places.displayName,places.formattedAddress,places.types,places.rating,places.currentOpeningHours,places.location,places.photos,places.reviews'
         ])->post('https://places.googleapis.com/v1/places:searchNearby', [
             'locationRestriction' => [
                 'circle' => [
@@ -59,25 +58,27 @@ class PlacesController extends Controller
 
             // 簡潔な形式に整形
             $places = array_map(function($place) use ($apiKey) {
-            // 店舗の緯度と経度を取得
-            $placeLat = $place['location']['latitude'] ?? null;
-            $placeLon = $place['location']['longitude'] ?? null;
-            $placePhotos = [];
-            if (isset($place['photos']) && is_array($place['photos']) && count($place['photos']) > 0) {
-                foreach ($place['photos'] as $photo) {
-                    if (isset($photo['name'])) {
-                        // Google Places APIのMedia APIエンドポイントを使用
-                        $photoName = $photo['name'];
-                        $placePhotos[] = [
-                            'url' => "https://places.googleapis.com/v1/{$photoName}/media?maxHeightPx=400&maxWidthPx=400&key={$apiKey}"
-                        ];
+
+                // 店舗の緯度と経度を取得
+                $placeLat = $place['location']['latitude'] ?? null;
+                $placeLon = $place['location']['longitude'] ?? null;
+
+                $placePhotos = [];
+                if (isset($place['photos']) && is_array($place['photos']) && count($place['photos']) > 0) {
+                    foreach ($place['photos'] as $photo) {
+                        if (isset($photo['name'])) {
+                            // Google Places APIのMedia APIエンドポイントを使用
+                            $photoName = $photo['name'];
+                            $placePhotos[] = [
+                                'url' => "https://places.googleapis.com/v1/{$photoName}/media?maxHeightPx=400&maxWidthPx=400&key={$apiKey}"
+                            ];
+                        }
                     }
                 }
-            }
-            $placeReviews = [];
-            if (isset($place['reviews']) && is_array($place['reviews'])) {
-                $placeReviews = $place['reviews'];
-            }
+                $placeReviews = [];
+                if (isset($place['reviews']) && is_array($place['reviews'])) {
+                    $placeReview = $place['reviews'];
+                }
                 return [
                     'id' => $place['id'] ?? null,
                     'name' => $place['displayName']['text'] ?? 'N/A',
@@ -126,22 +127,102 @@ class PlacesController extends Controller
         // Places API - Place Details 呼び出し
         $placesApiKey = env('GOOGLE_PLACES_API_KEY');
 
+        // デバッグ用：places/ プレフィックスを追加
+        if (!str_starts_with($placeId, 'places/')) {
+            $placeId = 'places/' . $placeId;
+        }
+
+        // デバッグ用：ログで確認
+        \Log::info('Final Place ID: ' . $placeId);
+
+        // デバッグ用：実際のURLを確認
+        $url = "https://places.googleapis.com/v1/{$placeId}";
+        \Log::info('Request URL: ' . $url);
+
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'X-Goog-Api-Key' => $placesApiKey,
-            'X-Goog-FieldMask' => 'id,displayName,formattedAddress,types,rating,currentOpeningHours,regularOpeningHours,internationalPhoneNumber,photos'
-        ])->get("https://places.googleapis.com/v1/{$placeId}");
+            'X-Goog-FieldMask' => 'id,displayName,formattedAddress,types,rating,currentOpeningHours,regularOpeningHours,internationalPhoneNumber,photos,reviews'
+        ])->get($url, ['languageCode' => 'ja']);
+
+        // デバッグ用：レスポンスの詳細を確認
+        \Log::info('Response Status: ' . $response->status());
 
         // エラー処理
         if (!$response->successful()) {
             return response()->json([
                 'error' => '店舗詳細の取得に失敗',
                 'status' => $response->status(),
+                'message' => $response->json(),
+                'url' => $url   // デバッグ用
             ], 500);
         }
 
         // 店舗詳細データ取得
         $place = $response->json();
+
+        // デバッグ用：元のデータを確認
+        // \Log::info('Original Address: ' . ($place['formattedAddress'] ?? 'N/A'));
+        // \Log::info('Original Phone: ' . ($place['internationalPhoneNumber'] ?? 'N/A'));
+
+
+        // 写真URLを生成
+        $placePhotos = [];
+        if (isset($place['photos']) && is_array($place['photos']) && count($place['photos']) > 0) {
+            foreach ($place['photos'] as $photo) {
+                if (isset($photo['name'])) {
+                    // Google Places APIのMedia APIエンドポイントを使用
+                    $photoName = $photo['name'];
+                    $placePhotos[] = [
+                        'url' => "https://places.googleapis.com/v1/{$photoName}/media?maxHeightPx=400&maxWidthPx=400&key={$placesApiKey}"
+                    ];
+                }
+            }
+        }
+        // レビュー情報を整形
+        $placeReviews = [];
+        if (isset($place['reviews']) && is_array($place['reviews'])) {
+            $placeReviews = array_map(function($review) {
+                return [
+                    'rating' => $review['rating'] ?? null,
+                    'text' => $review['text']['text'] ?? '',
+                    'author' => $review['authorAttribution']['displayName'] ?? '匿名',
+                    'author_photo' => $review['authorAttribution']['photoUri'] ?? null,
+                    'date' => $review['publishTime'] ?? null,
+                    'relative_time' => $review['relativePublishTimeDescription'] ?? ''
+                ];
+            }, $place['reviews']);
+        }
+        // 今日の営業時間を取得
+        $todayHours = null;
+        if (isset($place['currentOpeningHours']['weekdayDescriptions'])) {
+            // 今日の曜日を取得（0=日曜 〜 6=土曜）
+            $today = (int)date('w');
+
+            $index = ($today === 0) ? 6 : $today - 1;
+            $fullText = $place['currentOpeningHours']['weekdayDescriptions'][$index] ?? null;
+
+            // 曜日を削除し、時間だけを取得
+            if ($fullText) {
+                $todayHours = preg_replace('/^[^:]+:\s*/', '', $fullText);
+            }
+        }
+        // // 住所を整形
+        // $address = $place['formattedAddress'] ?? 'N/A';
+        // // 「日本、」と郵便番号を削除
+        // if (preg_match('/^日本、(?:〒\d{3}-\d{4}\s*)?(.+)$/', $address, $matches)) {
+        //     $address = $matches[1];
+        // }
+        // 電話番号を整形
+        // $phone = $place['internationalPhoneNumber'] ?? null;
+        // if ($phone) {
+        //     // +81 を 0 に変換
+        //     $phone = preg_replace('/^\+81\s*/', '0', $phone);
+
+        //     // スペースを削除してハイフンで統一
+        //     $phone = str_replace(' ', '', $phone);
+        // }
+
 
         // 簡潔な形式に整形して返す
         return response()->json([
@@ -150,12 +231,12 @@ class PlacesController extends Controller
             'address' => $place['formattedAddress'] ?? 'N/A',
             'rating' => $place['rating'] ?? null,   // 評価
             'genre' => $place['types'] ?? [],
-            'open_today' => $place['currentOpeningHours']['openNow'] ?? null,    // 営業中か
-            'opening_hours' => $place['regularOpeningHours']['weekdayDescriptions'] ?? [],  // 営業時間
+            'open_today' => $place['currentOpeningHours']['openNow'] ?? null,    // 現在営業中か
+            'today_hours' => $todayHours,   // 今日の営業時間
+            'opening_hours' => $place['regularOpeningHours']['weekdayDescriptions'] ?? [],  // 営業時間（全曜日）
             'phone' => $place['internationalPhoneNumber'] ?? null,  // 国際電話番号形式
-            'images' => array_map(function($photo) {    // 店舗の写真（複数対応）
-                return $photo['name'] ?? null;
-            }, $place['photos'] ?? [])
+            'images' => $placePhotos,
+            'reviews' => $placeReviews
         ]);
     }
 }

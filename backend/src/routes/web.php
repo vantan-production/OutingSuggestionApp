@@ -3,11 +3,14 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StoreController;
 use Illuminate\Routing\Controller;
 use App\Http\Controllers\AuthController;
 use Illuminate\Container\Attributes\Auth;
 
 Route::get('/top', [UserController::class, 'index']) ->name('top');
+
+Route::get('/stores/{id}', [StoreController::class, 'show'])->name('store_detail');
 
 // ログイン
 Route::get('/login', [AuthController::class, 'LoginForm']) ->name('login');
