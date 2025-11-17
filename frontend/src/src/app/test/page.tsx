@@ -10,6 +10,9 @@ import {
 import GuestHeader from "../../../components/guestHeader";
 import { useRouter } from "next/navigation";
 
+import Header from "../../../components/guestHeader";
+import StoreInfo from "../../../components/store-info";
+import TopPage from "../top/page";
 export default function TestPage() {
   const router = useRouter();
   const [searchResults, setSearchResults] = useState<PlaceResponse["places"]>(
