@@ -1,13 +1,27 @@
 "use client";
 import Modal from "./modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
-function GuestHeader() {
+function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const router = useRouter();
+
+  // モーダルが開いている時にbodyにクラスを追加
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.classList.add("modal-open");
+    } else {
+      document.body.classList.remove("modal-open");
+    }
+    // クリーンアップ
+    return () => {
+      document.body.classList.remove("modal-open");
+    };
+  }, [isModalOpen]);
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
