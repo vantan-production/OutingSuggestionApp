@@ -129,17 +129,34 @@ class PlacesController extends Controller
         // Places API - Place Details 呼び出し
         $placesApiKey = env('GOOGLE_PLACES_API_KEY');
 
+        // デバッグ用：places/ プレフィックスを追加
+        if (!str_starts_with($placeId, 'places/')) {
+            $placeId = 'places/' . $placeId;
+        }
+
+        // デバッグ用：ログで確認
+        \Log::info('Final Place ID: ' . $placeId);
+
+        // 実際のURLを確認
+        $url = "https://places.googleapis.com/v1/{$placeId}";
+        \Log::info('Request URL: ' . $url);
+
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'X-Goog-Api-Key' => $placesApiKey,
-            'X-Goog-FieldMask' => 'id,displayName,formattedAddress,types,rating,currentOpeningHours,regularOpeningHours,photos,reviews,internationalPhoneNumber,photos'
-        ])->get("https://places.googleapis.com/v1/{$placeId}");
+            'X-Goog-FieldMask' => 'id,displayName,formattedAddress,types,rating,currentOpeningHours,regularOpeningHours,internationalPhoneNumber,photos,reviews'
+        ])->get($url);
+
+        // デバッグ用：レスポンスの詳細を確認
+        \Log::info('Response Status: ' . $response->status());
 
         // エラー処理
         if (!$response->successful()) {
             return response()->json([
                 'error' => '店舗詳細の取得に失敗',
                 'status' => $response->status(),
+                'message' => $response->json(),
+                'url' => $url   // デバッグ用
             ], 500);
         }
 
@@ -154,7 +171,7 @@ class PlacesController extends Controller
                     // Google Places APIのMedia APIエンドポイントを使用
                     $photoName = $photo['name'];
                     $placePhotos[] = [
-                        'url' => "https://places.googleapis.com/v1/{$photoName}/media?maxHeightPx=400&maxWidthPx=400&key={$apiKey}"
+                        'url' => "https://places.googleapis.com/v1/{$photoName}/media?maxHeightPx=400&maxWidthPx=400&key={$placesApiKey}"
                     ];
                 }
             }
