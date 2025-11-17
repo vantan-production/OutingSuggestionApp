@@ -190,6 +190,15 @@ class PlacesController extends Controller
                 ];
             }, $place['reviews']);
         }
+        // 今日の営業時間を取得
+        $todayHours = null;
+        if (isset($place['currentOpeningHours']['weekdayDescriptions'])) {
+            // 今日の曜日を取得（0=日曜 〜 6=土曜）
+            $today = (int)date('w');
+
+            $index = ($today === 0) ? 6 : $today - 1;
+            $todayHours = $place['currentOpeningHours']['weekdayDescriptions'][$index] ?? null;
+        }
 
         // 簡潔な形式に整形して返す
         return response()->json([
@@ -198,8 +207,9 @@ class PlacesController extends Controller
             'address' => $place['formattedAddress'] ?? 'N/A',
             'rating' => $place['rating'] ?? null,   // 評価
             'genre' => $place['types'] ?? [],
-            'open_today' => $place['currentOpeningHours']['openNow'] ?? null,    // 営業中か
-            'opening_hours' => $place['regularOpeningHours']['weekdayDescriptions'] ?? [],  // 営業時間
+            'open_today' => $place['currentOpeningHours']['openNow'] ?? null,    // 現在営業中か
+            'today_hours' => $todayHours,   // 今日の営業時間
+            'opening_hours' => $place['regularOpeningHours']['weekdayDescriptions'] ?? [],  // 営業時間（全曜日）
             'phone' => $place['internationalPhoneNumber'] ?? null,  // 国際電話番号形式
             'images' => $placePhotos,
             'reviews' => $placeReviews
