@@ -163,6 +163,11 @@ class PlacesController extends Controller
         // 店舗詳細データ取得
         $place = $response->json();
 
+        // デバッグ用：元のデータを確認
+        // \Log::info('Original Address: ' . ($place['formattedAddress'] ?? 'N/A'));
+        // \Log::info('Original Phone: ' . ($place['internationalPhoneNumber'] ?? 'N/A'));
+
+
         // 写真URLを生成
         $placePhotos = [];
         if (isset($place['photos']) && is_array($place['photos']) && count($place['photos']) > 0) {
@@ -204,6 +209,22 @@ class PlacesController extends Controller
                 $todayHours = preg_replace('/^[^:]+:\s*/', '', $fullText);
             }
         }
+        // // 住所を整形
+        // $address = $place['formattedAddress'] ?? 'N/A';
+        // // 「日本、」と郵便番号を削除
+        // if (preg_match('/^日本、(?:〒\d{3}-\d{4}\s*)?(.+)$/', $address, $matches)) {
+        //     $address = $matches[1];
+        // }
+        // 電話番号を整形
+        // $phone = $place['internationalPhoneNumber'] ?? null;
+        // if ($phone) {
+        //     // +81 を 0 に変換
+        //     $phone = preg_replace('/^\+81\s*/', '0', $phone);
+
+        //     // スペースを削除してハイフンで統一
+        //     $phone = str_replace(' ', '', $phone);
+        // }
+
 
         // 簡潔な形式に整形して返す
         return response()->json([
